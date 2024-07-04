@@ -1,0 +1,94 @@
+.casilla{	
+  border:1px solid #c2c2c2 !important;
+  background: rgba(255,255,255, 0.2) !important;
+  color: #959595 !important;
+}
+
+.casilla:focus{	
+border: 1px solid #557dff !important;
+background: rgba(255,255,255, 0.2) !important;
+color: #000 !important;
+}
+
+.casilla:hover{	
+border: 1px solid #4f5972 !important;
+background: rgba(255,255,255, 0.2) !important;
+color: #4f5972 !important;
+}
+
+.sombra{
+box-shadow: 0px 5px 10px #001A6F;
+border-radius: 0px 0px 20px 20px;
+}
+
+.indigo{
+background-color: #e0e2ee;
+}
+
+.bg-azul{
+background-color: #001A6F;
+color: #ffffff;
+border-radius: 6px;
+padding-top: 7px;
+padding-bottom: 7px;
+}
+
+.radio-titulo{
+border-radius: 20px 20px 0px 0px;
+}
+
+.divisor-blanco{
+color: white;
+}
+
+.cursor{ 
+cursor: pointer;
+}
+
+.btn-negrita{
+font-weight:bold;
+}
+
+.btn:hover{
+  animation: shadow-pulse 1000ms 1 !important;
+  background-color: #FF8A00 !important;
+  color: white !important;
+}
+
+.icono-php{ 
+  font-size: 200px !important;
+}
+
+.ancho-completo{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.menu{
+  padding: 20px !important;
+}
+
+
+.bg-menu{
+background-color: #001A6F;
+color: #ffffff;
+padding-top: 7px;
+padding-bottom: 7px;
+border-bottom: solid 5px #fc5c04;
+}
+
+.menu-principal{
+  color: #FFFFFF !important;
+  font-weight: bold;
+  font-size: 15px;
+  
+}
+.invalida{
+  border: solid 1px red;
+  box-shadow: 0 0 10px red;
+}
+.error{
+  color: red;
+  display: block;
+}
