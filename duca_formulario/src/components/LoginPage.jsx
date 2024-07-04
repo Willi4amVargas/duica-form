@@ -6,8 +6,8 @@ import FormBtn from "./FormBtn";
 import { useState } from "react";
 
 export default function LoginPage(props) {
-    var [user, changeUser] = useState('');
-    var [password, changePassword] = useState('');
+    const [user, changeUser] = useState('');
+    const [password, changePassword] = useState('');
     
     const changeState = (event) => {
         if (event.target.name === "username") {

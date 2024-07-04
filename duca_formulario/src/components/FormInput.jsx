@@ -20,6 +20,7 @@ export default function FormInput({labelInput, titleInput, placeHolderInput, idI
                 className="form-control casilla"
                 value={inputValue}
                 onChange={onChange}
+                
             />
             <span></span>
         </div>
