@@ -5,13 +5,13 @@ import FormTitle from "./FormTitle"
 import FormBtn from "./FormBtn"
 import FormSelect from "./FormSelect"
 
-export default function FormBox() {
+export default function FormBox(props) {
     return<>
     <div className="container-fluid">
 	<div className="row pb-5 pt-5 px-0 justify-content-center">
 		<div className="col-lg-10 col-xs-12 text-center">
 			<form action="#" method="POST" className="text-center">
-                <FormHeader srcImage="../../public/reeact-logo.svg"/>
+                <FormHeader srcImage="/reeact-logo.svg"/>
 				<div className="sombra indigo pt-2 pb-4 text-center">
 					<div className="col-12 text-center pt-3">
 						<div className="row justify-content-center text-center">
@@ -23,6 +23,7 @@ export default function FormBox() {
                                 placeHolderInput="Descripcion" 
                                 idInput="nameClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -31,6 +32,7 @@ export default function FormBox() {
                                 placeHolderInput="Direccion" 
                                 idInput="addressClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -39,6 +41,7 @@ export default function FormBox() {
                                 placeHolderInput="RIF/Cedula" 
                                 idInput="rifClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -47,6 +50,7 @@ export default function FormBox() {
                                 placeHolderInput="Direccion de correo electronico" 
                                 idInput="emailClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -55,6 +59,7 @@ export default function FormBox() {
                                 placeHolderInput="Numero de telefono" 
                                 idInput="telClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -63,6 +68,7 @@ export default function FormBox() {
                                 placeHolderInput="Contacto del cliente" 
                                 idInput="contaClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -71,6 +77,7 @@ export default function FormBox() {
                                 placeHolderInput="Ingrese una direccion" 
                                 idInput="addressClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormSelect 
@@ -94,6 +101,7 @@ export default function FormBox() {
                                 placeHolderInput="Ingrese el area de ventas" 
                                 idInput="areaSalesClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -102,6 +110,7 @@ export default function FormBox() {
                                 placeHolderInput="Vendedor" 
                                 idInput="sellerClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -110,6 +119,7 @@ export default function FormBox() {
                                 placeHolderInput="Ingrese el Grupo de Cliente" 
                                 idInput="groupClient" 
                                 inputType="text"
+                                inputValue=""
                             />
                             <hr />
                             <FormInput 
@@ -118,8 +128,10 @@ export default function FormBox() {
                                 placeHolderInput="Ingrese el tipo de cliente" 
                                 idInput="typeClient" 
                                 inputType="text"
+                                inputValue=""
                             />
-                            <FormBtn>Agregar Cliente</FormBtn>
+                            <FormBtn idBtnForm="submit">Agregar Cliente</FormBtn>
+                            <button onClick={()=>props.changeSesion()}>TEST</button>
 							</div>
 						</div>
 					</div>
