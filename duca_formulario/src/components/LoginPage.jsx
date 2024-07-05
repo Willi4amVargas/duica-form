@@ -3,9 +3,30 @@ import FormHeader from "./FormHeader";
 import FormInput from "./FormInput";
 import FormTitle from "./FormTitle";
 import FormBtn from "./FormBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function LoginPage(props) {
+    //Obtengo la data de los usuarios administradores
+    const [usersComplete,changeUsersComplete]=useState([])
+
+    const fetchUsers = async()=>{
+        try{
+          const response=await fetch('http://localhost:3001/readUsers')
+          if (!response.ok) {
+            throw new Error('Error al obtener los datos del servidor!!!')
+          }
+          const data= await response.json()
+          changeUsersComplete(data)
+        }catch(error){
+          console.log("Error al obtener los paises!!")
+        }
+      }
+    
+      useEffect(()=>{
+        fetchUsers()
+      },[])
+      console.log(usersComplete)
+
     const [user, changeUser] = useState('');
     const [password, changePassword] = useState('');
     

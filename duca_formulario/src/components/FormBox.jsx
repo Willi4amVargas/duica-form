@@ -74,11 +74,16 @@ export default function FormBox(props) {
             console.log("Formulario enviado con éxito");
         }
     };
-    const [provinces,changeProvinces]=useState([])
 
+    //Objetos de los Paises, Estados y Ciudades
+    const [provinces,changeProvinces]=useState([])
+    const [countrys,changeCountrys]=useState([])
+    const [citys,changeCitys]=useState([])
+
+    //Buscar las provincias
     const fetchProvinces = async()=>{
       try{
-        const response=await fetch('http://localhost:3001/')
+        const response=await fetch('http://localhost:3001/readProvince')
         if (!response.ok) {
           throw new Error('Error al obtener los datos del servidor!!!')
         }
@@ -92,7 +97,43 @@ export default function FormBox(props) {
     useEffect(()=>{
       fetchProvinces()
     },[])
-    console.log(provinces)
+
+    //Buscar los Paises
+    const fetchCountrys = async()=>{
+        try{
+          const response=await fetch('http://localhost:3001/readCountry')
+          if (!response.ok) {
+            throw new Error('Error al obtener los datos del servidor!!!')
+          }
+          const data= await response.json()
+          changeCountrys(data)
+        }catch(error){
+          console.log("Error al obtener los estados!!")
+        }
+      }
+    
+      useEffect(()=>{
+        fetchCountrys()
+      },[])
+
+      //Buscar las ciudades
+      const fetchCitys = async()=>{
+        try{
+          const response=await fetch('http://localhost:3001/readCity')
+          if (!response.ok) {
+            throw new Error('Error al obtener los datos del servidor!!!')
+          }
+          const data= await response.json()
+          changeCitys(data)
+        }catch(error){
+          console.log("Error al obtener los estados!!")
+        }
+      }
+    
+      useEffect(()=>{
+        fetchCitys()
+      },[])
+    
     return (
         <>
             <div className="container-fluid">
@@ -140,6 +181,7 @@ export default function FormBox(props) {
                                                 idInputSelect="countryClient"
                                                 value={formData.countryClient}
                                                 onChange={handleChange}
+                                                arraySelect={countrys}
                                             />
                                             <hr />
                                             <FormSelect 
@@ -147,6 +189,7 @@ export default function FormBox(props) {
                                                 idInputSelect="provinceClient"
                                                 value={formData.provinceClient}
                                                 onChange={handleChange}
+                                                arraySelect={provinces}
                                             />
                                             <hr />
                                             <FormSelect 
@@ -154,6 +197,7 @@ export default function FormBox(props) {
                                                 idInputSelect="cityClient"
                                                 value={formData.cityClient}
                                                 onChange={handleChange}
+                                                arraySelect={citys}
                                             />
                                             <hr />
                                             <FormBtn idBtnForm="submit">Agregar Cliente</FormBtn>
