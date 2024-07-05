@@ -90,7 +90,7 @@ export default function FormBox(props) {
         const data= await response.json()
         changeProvinces(data)
       }catch(error){
-        console.log("Error al obtener los paises!!")
+        console.log("Error al obtener los estados!!")
       }
     }
   
@@ -108,7 +108,7 @@ export default function FormBox(props) {
           const data= await response.json()
           changeCountrys(data)
         }catch(error){
-          console.log("Error al obtener los estados!!")
+          console.log("Error al obtener los paises!!")
         }
       }
     
@@ -126,7 +126,7 @@ export default function FormBox(props) {
           const data= await response.json()
           changeCitys(data)
         }catch(error){
-          console.log("Error al obtener los estados!!")
+          console.log("Error al obtener las ciudades!!")
         }
       }
     

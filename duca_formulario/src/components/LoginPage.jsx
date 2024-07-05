@@ -3,51 +3,45 @@ import FormHeader from "./FormHeader";
 import FormInput from "./FormInput";
 import FormTitle from "./FormTitle";
 import FormBtn from "./FormBtn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function LoginPage(props) {
-    //Obtengo la data de los usuarios administradores
-    const [usersComplete,changeUsersComplete]=useState([])
-
-    const fetchUsers = async()=>{
-        try{
-          const response=await fetch('http://localhost:3001/readUsers')
-          if (!response.ok) {
-            throw new Error('Error al obtener los datos del servidor!!!')
-          }
-          const data= await response.json()
-          changeUsersComplete(data)
-        }catch(error){
-          console.log("Error al obtener los paises!!")
-        }
-      }
-    
-      useEffect(()=>{
-        fetchUsers()
-      },[])
-      console.log(usersComplete)
-
     const [user, changeUser] = useState('');
     const [password, changePassword] = useState('');
-    
+    const [errorMessage, setErrorMessage] = useState('');
+
     const changeState = (event) => {
         if (event.target.name === "username") {
             changeUser(event.target.value);
         } else if (event.target.name === "password") {
             changePassword(event.target.value);
         }
-    }
+    };
 
-    const validar = (event) => {
+    const validar = async (event) => {
         event.preventDefault();
-        if (user === "admin" && password === "admin") {
-            props.changeSesion(true);
-        } else {
-            alert("Datos Incorrectos");
-            changeUser("");
-            changePassword("");
+        try {
+            const response = await fetch('http://localhost:3001/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: user, password: password })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                props.changeSesion(true);
+            } else {
+                const errorData = await response.json();
+                setErrorMessage(errorData.message);
+                changeUser("");
+                changePassword("");
+            }
+        } catch (error) {
+            console.error("Error en la solicitud de inicio de sesión", error);
+            setErrorMessage("Error en la conexión con el servidor");
         }
-    }
+    };
 
     return (
         <>
@@ -64,6 +58,7 @@ export default function LoginPage(props) {
                                     <div className="row justify-content-center text-center">
                                         <div className="col-lg-10 col-md-10 col-sm-9 col-9 text-center">
                                             <FormTitle>Inicio de Sesion</FormTitle>
+                                            {errorMessage && <div className="error">{errorMessage}</div>}
                                             <FormInput 
                                                 labelInput="Usuario" 
                                                 titleInput="Usuario" 
