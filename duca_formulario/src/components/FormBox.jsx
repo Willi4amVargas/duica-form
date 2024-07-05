@@ -56,7 +56,7 @@ export default function FormBox(props) {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
         const newErrors = {};
         
@@ -70,8 +70,43 @@ export default function FormBox(props) {
         setErrors(newErrors);
 
         if (Object.keys(newErrors).length === 0) {
-            // Implement the form submission logic here
-            console.log("Formulario enviado con éxito");
+            if (Object.keys(newErrors).length === 0) {
+                try {
+                    const response = await fetch('http://localhost:3001/addClient', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        alert(data.message);
+                        // Reset form
+                        setFormData({
+                            nameClient:'', 
+                            addressClient:'', 
+                            rifClient:'', 
+                            emailClient:'', 
+                            telClient:'', 
+                            contaClient:'', 
+                            countryClient:'', 
+                            provinceClient:'', 
+                            cityClient:'', 
+                            areaSalesClient:'', 
+                            sellerClient:'', 
+                            groupClient:'', 
+                            typeClient:''
+                        });
+                    } else {
+                        const errorData = await response.json();
+                        alert(errorData.message);
+                    }
+                } catch (error) {
+                    console.error("Error en la solicitud:", error);
+                    alert("Error en la conexión con el servidor");
+                }
+            }
         }
     };
 
@@ -139,7 +174,7 @@ export default function FormBox(props) {
             <div className="container-fluid">
                 <div className="row pb-5 pt-5 px-0 justify-content-center">
                     <div className="col-lg-10 col-xs-12 text-center">
-                        <form action="#" method="POST" onSubmit={handleSubmit} className="text-center">
+                        <form onSubmit={handleSubmit} className="text-center">
                             <FormHeader 
                                 srcImage1="./logo-white.png" 
                                 altImg1="logo-blanco-DUICA"   
@@ -200,7 +235,12 @@ export default function FormBox(props) {
                                                 arraySelect={citys}
                                             />
                                             <hr />
-                                            <FormBtn idBtnForm="submit">Agregar Cliente</FormBtn>
+                                            <FormBtn idBtnForm="sending" type="submit">Agregar Cliente</FormBtn>
+                                            {/* <div className="row mt-5">
+                                                <div className="col-12  text-center">
+                                                    <input type="submit" id="submitBtn" className="btn btn-negrita cursor bg-gray" value="Agregar Cliente"/>
+                                                </div>
+                                            </div> */}
                                             <div className="row mt-5">
                                                 <div className="col-12  text-center">
                                                     <button onClick={() => props.changeSesion()} id="close-sesion" className="btn btn-md cursor bg-gray" >Cerrar Sesion</button>

@@ -56,17 +56,6 @@ app.get('/readCity',(req,res)=>{
     })
 })
 
-//Obtiene los datos de los usuarios administradores
-/* app.get('/readUsers',(req,res)=>{
-    const sqlQuery="SELECT * FROM `users`"
-    db.query(sqlQuery,(err,result)=>{
-        if (err) {
-            throw err
-        }
-        res.json(result)
-    })
-}) */
-
 
 //Busca en la base de datos el usuario administrador y comprueba que exista
 app.post('/login', (req, res) => {
@@ -95,6 +84,41 @@ app.post('/login', (req, res) => {
     });
 });
 
+
+//Añade un cliente a la base de datos
+app.post('/addClient', (req, res) => {
+    console.log("Esta en la ruta AddCliente")
+    const { 
+        nameClient, 
+        addressClient, 
+        rifClient, 
+        emailClient, 
+        telClient, 
+        contaClient, 
+        countryClient, 
+        provinceClient, 
+        cityClient, 
+        areaSalesClient, 
+        sellerClient, 
+        groupClient, 
+        typeClient 
+    } = req.body;
+    
+    if (!nameClient || !addressClient || !rifClient || !emailClient || !telClient || !contaClient || !countryClient || !provinceClient || !cityClient || !areaSalesClient || !sellerClient || !typeClient) {
+        res.status(400).json({ message: 'Todos los campos son obligatorios' });
+        return;
+    }
+
+    const sqlQuery = 'INSERT INTO `clients`( `description`, `address`, `client_id`, `email`, `phone`, `contact`, `country`, `province`, `city`, `area_sales`, `seller`, `client_group`, `client_type`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+    db.query(sqlQuery, [nameClient, addressClient, rifClient, emailClient, telClient, contaClient, countryClient, provinceClient, cityClient, areaSalesClient, sellerClient, groupClient, typeClient], (err, result) => {
+        if (err) {
+            console.error('Error en la base de datos:', err);
+            res.status(500).json({ message: 'Error en la base de datos' });
+            return;
+        }
+        res.status(201).json({ message: 'Cliente agregado con éxito' });
+    });
+});
 
 app.listen(port,(req,res)=>{
     console.log("Servidor escuchando en http://localhost:"+port)
