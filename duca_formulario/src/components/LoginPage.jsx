@@ -34,7 +34,10 @@ export default function LoginPage(props) {
                 <div className="row pb-5 pt-5 px-0 justify-content-center">
                     <div className="col-lg-10 col-xs-12 text-center">
                         <form action="#" method="POST" onSubmit={validar} className="text-center">
-                            <FormHeader srcImage="../../public/reeact-logo.svg" />
+                            <FormHeader 
+                                srcImage1="./logo-white.png" 
+                                altImg1="logo-blanco-DUICA"  
+                            />
                             <div className="sombra indigo pt-2 pb-4 text-center">
                                 <div className="col-12 text-center pt-3">
                                     <div className="row justify-content-center text-center">

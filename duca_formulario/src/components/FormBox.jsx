@@ -4,9 +4,7 @@ import FormInput from "./FormInput";
 import FormTitle from "./FormTitle";
 import FormBtn from "./FormBtn";
 import FormSelect from "./FormSelect";
-import React from "react";
-import { useState } from "react";
-
+import {  useEffect, useState } from 'react'
 export default function FormBox(props) {
     const [formData, setFormData] = useState({
         nameClient: '',
@@ -24,26 +22,87 @@ export default function FormBox(props) {
         typeClient: ''
     });
 
+    const [errors, setErrors] = useState({});
+
     const handleChange = (event) => {
         const { id, value } = event.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
             [id]: value
         }));
+        validateField(id, value);
+    };
+
+    const validateField = (field, value) => {
+        let errorMsg = '';
+
+        if (!value.trim()) {
+            errorMsg = 'Este campo es obligatorio';
+        } else {
+            switch (field) {
+                case 'emailClient':
+                    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) {
+                        errorMsg = 'Email no válido';
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [field]: errorMsg
+        }));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Implementar la lógica de envío del formulario aquí
-    };
+        const newErrors = {};
+        
+        Object.keys(formData).forEach((field) => {
+            validateField(field, formData[field]);
+            if (!formData[field].trim()) {
+                newErrors[field] = 'Este campo es obligatorio';
+            }
+        });
 
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length === 0) {
+            // Implement the form submission logic here
+            console.log("Formulario enviado con éxito");
+        }
+    };
+    const [provinces,changeProvinces]=useState([])
+
+    const fetchProvinces = async()=>{
+      try{
+        const response=await fetch('http://localhost:3001/')
+        if (!response.ok) {
+          throw new Error('Error al obtener los datos del servidor!!!')
+        }
+        const data= await response.json()
+        changeProvinces(data)
+      }catch(error){
+        console.log("Error al obtener los paises!!")
+      }
+    }
+  
+    useEffect(()=>{
+      fetchProvinces()
+    },[])
+    console.log(provinces)
     return (
         <>
             <div className="container-fluid">
                 <div className="row pb-5 pt-5 px-0 justify-content-center">
                     <div className="col-lg-10 col-xs-12 text-center">
                         <form action="#" method="POST" onSubmit={handleSubmit} className="text-center">
-                            <FormHeader srcImage="/logo.png" />
+                            <FormHeader 
+                                srcImage1="./logo-white.png" 
+                                altImg1="logo-blanco-DUICA"   
+                            />
                             <div className="sombra indigo pt-2 pb-4 text-center">
                                 <div className="col-12 text-center pt-3">
                                     <div className="row justify-content-center text-center">
@@ -70,7 +129,9 @@ export default function FormBox(props) {
                                                         inputType="text"
                                                         inputValue={formData[id]}
                                                         onChange={handleChange}
+                                                        error={errors[id]}
                                                     />
+                                                    {errors[id] && <div className="error">{errors[id]}</div>}
                                                     <hr />
                                                 </div>
                                             ))}
@@ -96,7 +157,11 @@ export default function FormBox(props) {
                                             />
                                             <hr />
                                             <FormBtn idBtnForm="submit">Agregar Cliente</FormBtn>
-                                            <button onClick={() => props.changeSesion()}>TEST Regresar Login</button>
+                                            <div className="row mt-5">
+                                                <div className="col-12  text-center">
+                                                    <button onClick={() => props.changeSesion()} id="close-sesion" className="btn btn-md cursor bg-gray" >Cerrar Sesion</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
