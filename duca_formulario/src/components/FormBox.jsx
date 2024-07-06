@@ -94,7 +94,6 @@ export default function FormBox(props) {
                         body: JSON.stringify(formData)
                     });
                     if (response.ok) {
-                        console.log(formData)
                         const data = await response.json();
                         alert(data.message);
                         // Reset form
