@@ -1,6 +1,6 @@
 const express = require('express')
-const mysql = require('mysql')
 const cors= require('cors')
+const db = require('./db')
 
 const app= express()
 const port=3001
@@ -8,21 +8,7 @@ app.use(cors())
 app.use(express.json());
 
 
-const db=mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'',
-    database:'duca_form'
-})
-
-db.connect((err)=>{
-    if (err) {
-        throw err
-    }
-    console.log("Conexion a la base de datos completo")
-})
 //Obtiene la data del Pais, Estado y ciudad
-
 //Obtiene datos de los paises
 app.get('/readProvince',(req,res)=>{
     const sqlQuery='SELECT * FROM `provinces`'
@@ -56,6 +42,24 @@ app.get('/readCity',(req,res)=>{
     })
 })
 
+//Buscar el usuario administrador para ponerlo en el formulario
+app.get('/readUser',(req,res)=>{
+    const {code}=req.body
+    const sqlQuery='SELECT `description` FROM `users` WHERE code=?'
+    db.query(sqlQuery,[code],(err,result)=>{
+        if (err) {
+            console.log("Error en la base de datos",err)
+            return;
+        }
+        if (result.length===0) {
+            res.status(404).json({message:'Usuario no encontrado'})
+
+        }else{
+            res.json(result[0])
+            console.log(result)
+        }
+    })
+})
 
 //Busca en la base de datos el usuario administrador y comprueba que exista
 app.post('/login', (req, res) => {
@@ -84,7 +88,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-
 //Añade un cliente a la base de datos
 app.post('/addClient', (req, res) => {
     console.log("Esta en la ruta AddCliente")
@@ -103,10 +106,9 @@ app.post('/addClient', (req, res) => {
         groupClient, 
         typeClient 
     } = req.body;
-    
-    if (!nameClient || !addressClient || !rifClient || !emailClient || !telClient || !contaClient || !countryClient || !provinceClient || !cityClient || !areaSalesClient || !sellerClient || !typeClient) {
-        res.status(400).json({ message: 'Todos los campos son obligatorios' });
-        return;
+
+    if (!nameClient || !addressClient || !rifClient || !emailClient || !telClient || !contaClient || !countryClient || !provinceClient || !cityClient || !sellerClient ) {
+        return res.status(400).json({ message: 'Algunos de los campos son obligatorios' });
     }
 
     const sqlQuery = 'INSERT INTO `clients`( `description`, `address`, `client_id`, `email`, `phone`, `contact`, `country`, `province`, `city`, `area_sales`, `seller`, `client_group`, `client_type`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)';

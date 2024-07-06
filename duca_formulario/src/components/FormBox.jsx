@@ -21,6 +21,18 @@ export default function FormBox(props) {
         groupClient: '',
         typeClient: ''
     });
+    const updateSellerClient=(sellerCode)=>{
+        setFormData((prevFormData)=>({
+            ...prevFormData,
+            sellerClient:sellerCode
+        }))
+    }
+    useEffect(()=>{
+        if(props.adminUser){
+            updateSellerClient(props.adminUser)
+        }
+    },[props.adminUser])
+
 
     const [errors, setErrors] = useState({});
 
@@ -59,6 +71,8 @@ export default function FormBox(props) {
     const handleSubmit = async(event) => {
         event.preventDefault();
         const newErrors = {};
+        updateSellerClient(props.adminUser);
+        console.log('Formulario enviado:', formData);
         
         Object.keys(formData).forEach((field) => {
             validateField(field, formData[field]);
@@ -80,6 +94,7 @@ export default function FormBox(props) {
                         body: JSON.stringify(formData)
                     });
                     if (response.ok) {
+                        console.log(formData)
                         const data = await response.json();
                         alert(data.message);
                         // Reset form
@@ -168,7 +183,6 @@ export default function FormBox(props) {
       useEffect(()=>{
         fetchCitys()
       },[])
-    
     return (
         <>
             <div className="container-fluid">
@@ -184,6 +198,17 @@ export default function FormBox(props) {
                                     <div className="row justify-content-center text-center">
                                         <div className="col-lg-10 col-md-10 col-sm-9 col-9 text-center">
                                             <FormTitle>Datos del Cliente</FormTitle>
+                                            <FormInput
+                                                labelInput="Vendedor" 
+                                                titleInput="Nombre del vendedor" 
+                                                placeHolderInput={props.adminUser} 
+                                                idInput="sellerClient" 
+                                                inputType="text"
+                                                inputValue={props.adminUser}
+                                                disable
+                                                onChange={handleChange}
+                                            />
+                                            <hr/>
                                             {[
                                                 { label: "Nombre", id: "nameClient", placeholder: "Nombre" },
                                                 { label: "Direccion", id: "addressClient", placeholder: "Direccion" },
@@ -192,7 +217,6 @@ export default function FormBox(props) {
                                                 { label: "Telefono", id: "telClient", placeholder: "Numero de telefono" },
                                                 { label: "Contacto", id: "contaClient", placeholder: "Contacto del cliente" },
                                                 { label: "Area de Ventas", id: "areaSalesClient", placeholder: "Ingrese el area de ventas" },
-                                                { label: "Vendedor", id: "sellerClient", placeholder: "Vendedor" },
                                                 { label: "Grupo de Cliente", id: "groupClient", placeholder: "Ingrese el Grupo de Cliente" },
                                                 { label: "Tipo de Cliente", id: "typeClient", placeholder: "Ingrese el tipo de cliente" }
                                             ].map(({ label, id, placeholder }) => (
@@ -243,7 +267,7 @@ export default function FormBox(props) {
                                             </div> */}
                                             <div className="row mt-5">
                                                 <div className="col-12  text-center">
-                                                    <button onClick={() => props.changeSesion()} id="close-sesion" className="btn btn-md cursor bg-gray" >Cerrar Sesion</button>
+                                                    <button onClick={() => props.changeSesion()} id="close-sesion" className="btn cursor bg-gray" >Cerrar Sesion</button>
                                                 </div>
                                             </div>
                                         </div>

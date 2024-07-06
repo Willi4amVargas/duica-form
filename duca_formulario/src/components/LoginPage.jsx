@@ -18,6 +18,10 @@ export default function LoginPage(props) {
         }
     };
 
+    const sendDataToParent=()=>{
+        props.sendData(user)
+    }
+
     const validar = async (event) => {
         event.preventDefault();
         try {
@@ -31,6 +35,7 @@ export default function LoginPage(props) {
             if (response.ok) {
                 const data = await response.json();
                 props.changeSesion(true);
+                sendDataToParent()
             } else {
                 const errorData = await response.json();
                 setErrorMessage(errorData.message);
@@ -78,7 +83,7 @@ export default function LoginPage(props) {
                                                 inputValue={password}
                                                 onChange={changeState}
                                             />
-                                            <FormBtn idBtnForm="submit">Iniciar Sesion</FormBtn>
+                                            <FormBtn onClick={sendDataToParent} idBtnForm="submit">Iniciar Sesion</FormBtn>
                                         </div>
                                     </div>
                                 </div>
