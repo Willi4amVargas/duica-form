@@ -174,11 +174,6 @@ export default function FormBox(props) {
       useEffect(()=>{
         fetchCitys()
       },[])
-      const changeSessioDelay=()=>{
-        setTimeout(() => {
-            props.changeSesion()
-        }, 500)
-      }
     return (
         <>
             <div className="container-fluid">
@@ -198,7 +193,7 @@ export default function FormBox(props) {
                             <div className="sombra indigo pt-2 pb-4 text-center">
                                 <div className="col-12 text-center pt-3">
                                     <div className="row justify-content-center text-center">
-                                        <div className="col-lg-10 col-md-10 col-sm-9 col-9 text-center">
+                                        <div className="col-lg-10 col-md-10 col-sm-9 col-9 text-center"> 
                                         <form onSubmit={handleSubmit} className="text-center">
                                             <FormTitle>Datos del Cliente</FormTitle>
                                             <FormInput
@@ -262,14 +257,9 @@ export default function FormBox(props) {
                                                 arraySelect={citys}
                                             />
                                             <hr />
-                                            <FormBtn idBtnForm="sending" type="submit">Agregar Cliente</FormBtn>
+
+                                                <FormBtn idBtnForm="sending" type="submit">Agregar Cliente</FormBtn>
                                             </form>
-                                            <div className="row mt-5">
-                                                <div className="col-12  text-center">
-                                                    <button 
-                                                        onClick={changeSessioDelay} id="close-sesion" className="btn cursor bg-gray" >Cerrar Sesion</button>
-                                                </div>
-                                            </div> 
                                         </div>
                                     </div>
                                 </div>
@@ -277,6 +267,13 @@ export default function FormBox(props) {
                         
                     </div>
                 </div>
+                    <div className="row pb-4 pt-2 justify-content-center">
+                        <div className="col-12 col-md-5 col-sm-6 text-center">
+                            <button 
+                                onClick={()=>props.changeSesion(false)} id="close-sesion" className="btn btn-hover-red cursor bg-aquamarine" >Cerrar Sesion
+                            </button>
+                        </div>                 
+                    </div>
             </div>
         </>
     );
