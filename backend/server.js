@@ -90,7 +90,6 @@ app.post('/login', (req, res) => {
 
 //Añade un cliente a la base de datos
 app.post('/addClient', (req, res) => {
-    console.log("Esta en la ruta AddCliente")
     const { 
         nameClient, 
         addressClient, 
@@ -115,7 +114,7 @@ app.post('/addClient', (req, res) => {
     db.query(sqlQuery, [nameClient, addressClient, rifClient, emailClient, telClient, contaClient, countryClient, provinceClient, cityClient, areaSalesClient, sellerClient, groupClient, typeClient], (err, result) => {
         if (err) {
             console.error('Error en la base de datos:', err);
-            res.status(500).json({ message: 'Error en la base de datos' });
+            res.status(500).json({ message: 'Error \nPosible problema: El usuario ya existe' });
             return;
         }
         res.status(201).json({ message: 'Cliente agregado con éxito' });

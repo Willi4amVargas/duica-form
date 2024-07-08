@@ -4,6 +4,7 @@ import FormInput from "./FormInput";
 import FormTitle from "./FormTitle";
 import FormBtn from "./FormBtn";
 import FormSelect from "./FormSelect";
+import AlertDissmisable from "./AlertDissmisable";
 import {  useEffect, useState } from 'react'
 export default function FormBox(props) {
     const [formData, setFormData] = useState({
@@ -17,21 +18,11 @@ export default function FormBox(props) {
         provinceClient: '',
         cityClient: '',
         areaSalesClient: '',
-        sellerClient: '',
+        sellerClient: props.adminUser,
         groupClient: '',
         typeClient: ''
     });
-    const updateSellerClient=(sellerCode)=>{
-        setFormData((prevFormData)=>({
-            ...prevFormData,
-            sellerClient:sellerCode
-        }))
-    }
-    useEffect(()=>{
-        if(props.adminUser){
-            updateSellerClient(props.adminUser)
-        }
-    },[props.adminUser])
+    const[alertState,setAlertState]=useState(false)
 
 
     const [errors, setErrors] = useState({});
@@ -71,8 +62,6 @@ export default function FormBox(props) {
     const handleSubmit = async(event) => {
         event.preventDefault();
         const newErrors = {};
-        updateSellerClient(props.adminUser);
-        console.log('Formulario enviado:', formData);
         
         Object.keys(formData).forEach((field) => {
             validateField(field, formData[field]);
@@ -95,8 +84,6 @@ export default function FormBox(props) {
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        alert(data.message);
-                        // Reset form
                         setFormData({
                             nameClient:'', 
                             addressClient:'', 
@@ -108,10 +95,15 @@ export default function FormBox(props) {
                             provinceClient:'', 
                             cityClient:'', 
                             areaSalesClient:'', 
-                            sellerClient:'', 
+                            sellerClient:props.adminUser, 
                             groupClient:'', 
                             typeClient:''
-                        });
+                        })
+                        setAlertState(true);
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                        setTimeout(() => {
+                            setAlertState(false)
+                        }, 2300)
                     } else {
                         const errorData = await response.json();
                         alert(errorData.message);
@@ -182,12 +174,23 @@ export default function FormBox(props) {
       useEffect(()=>{
         fetchCitys()
       },[])
+      const changeSessioDelay=()=>{
+        setTimeout(() => {
+            props.changeSesion()
+        }, 500)
+      }
     return (
         <>
             <div className="container-fluid">
                 <div className="row pb-5 pt-5 px-0 justify-content-center">
                     <div className="col-lg-10 col-xs-12 text-center">
-                        <form onSubmit={handleSubmit} className="text-center">
+                        {alertState && (
+                            <AlertDissmisable
+                            footerAlert="Cliente agregado con exito"
+                            headerAlert="Agregado"
+                            />
+                        )}
+                        
                             <FormHeader 
                                 srcImage1="./logo-white.png" 
                                 altImg1="logo-blanco-DUICA"   
@@ -196,6 +199,7 @@ export default function FormBox(props) {
                                 <div className="col-12 text-center pt-3">
                                     <div className="row justify-content-center text-center">
                                         <div className="col-lg-10 col-md-10 col-sm-9 col-9 text-center">
+                                        <form onSubmit={handleSubmit} className="text-center">
                                             <FormTitle>Datos del Cliente</FormTitle>
                                             <FormInput
                                                 labelInput="Vendedor" 
@@ -259,21 +263,18 @@ export default function FormBox(props) {
                                             />
                                             <hr />
                                             <FormBtn idBtnForm="sending" type="submit">Agregar Cliente</FormBtn>
-                                            {/* <div className="row mt-5">
-                                                <div className="col-12  text-center">
-                                                    <input type="submit" id="submitBtn" className="btn btn-negrita cursor bg-gray" value="Agregar Cliente"/>
-                                                </div>
-                                            </div> */}
+                                            </form>
                                             <div className="row mt-5">
                                                 <div className="col-12  text-center">
-                                                    <button onClick={() => props.changeSesion()} id="close-sesion" className="btn cursor bg-gray" >Cerrar Sesion</button>
+                                                    <button 
+                                                        onClick={changeSessioDelay} id="close-sesion" className="btn cursor bg-gray" >Cerrar Sesion</button>
                                                 </div>
-                                            </div>
+                                            </div> 
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        
                     </div>
                 </div>
             </div>

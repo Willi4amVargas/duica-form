@@ -52,7 +52,7 @@ export default function LoginPage(props) {
         <>
             <div className="container-fluid">
                 <div className="row pb-5 pt-5 px-0 justify-content-center">
-                    <div className="col-lg-10 col-xs-12 text-center">
+                    <div className="col-lg-11 col-xs-12 text-center">
                         <form action="#" method="POST" onSubmit={validar} className="text-center">
                             <FormHeader 
                                 srcImage1="./logo-white.png" 
