@@ -75,7 +75,7 @@ export default function FormBox(props) {
         if (Object.keys(newErrors).length === 0) {
             if (Object.keys(newErrors).length === 0) {
                 try {
-                    const response = await fetch('http://localhost:3001/addClient', {
+                    const response = await fetch('http://localhost:3001/api/addClient', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ export default function FormBox(props) {
     //Buscar las provincias
     const fetchProvinces = async()=>{
       try{
-        const response=await fetch('http://localhost:3001/readProvince')
+        const response=await fetch('http://localhost:3001/api/readProvince')
         if (!response.ok) {
           throw new Error('Error al obtener los datos del servidor!!!')
         }
@@ -142,7 +142,7 @@ export default function FormBox(props) {
     //Buscar los Paises
     const fetchCountrys = async()=>{
         try{
-          const response=await fetch('http://localhost:3001/readCountry')
+          const response=await fetch('http://localhost:3001/api/readCountry')
           if (!response.ok) {
             throw new Error('Error al obtener los datos del servidor!!!')
           }
@@ -160,7 +160,7 @@ export default function FormBox(props) {
       //Buscar las ciudades
       const fetchCitys = async()=>{
         try{
-          const response=await fetch('http://localhost:3001/readCity')
+          const response=await fetch('http://localhost:3001/api/readCity')
           if (!response.ok) {
             throw new Error('Error al obtener los datos del servidor!!!')
           }
@@ -209,12 +209,12 @@ export default function FormBox(props) {
                                             <hr/>
                                             {[
                                                 { label: "Nombre", id: "nameClient", placeholder: "Nombre" },
-                                                { label: "Direccion", id: "addressClient", placeholder: "Direccion" },
-                                                { label: "Rif", id: "rifClient", placeholder: "RIF/Cedula" },
-                                                { label: "Email", id: "emailClient", placeholder: "Direccion de correo electronico" },
-                                                { label: "Telefono", id: "telClient", placeholder: "Numero de telefono" },
+                                                { label: "Dirección", id: "addressClient", placeholder: "Dirección" },
+                                                { label: "Rif", id: "rifClient", placeholder: "RIF/Cédula" },
+                                                { label: "Email", id: "emailClient", placeholder: "Dirección de correo electrónico" },
+                                                { label: "Teléfono", id: "telClient", placeholder: "Número de telefono" },
                                                 { label: "Contacto", id: "contaClient", placeholder: "Contacto del cliente" },
-                                                { label: "Area de Ventas", id: "areaSalesClient", placeholder: "Ingrese el area de ventas" },
+                                                { label: "Área de Ventas", id: "areaSalesClient", placeholder: "Ingrese el area de ventas" },
                                                 { label: "Grupo de Cliente", id: "groupClient", placeholder: "Ingrese el Grupo de Cliente" },
                                                 { label: "Tipo de Cliente", id: "typeClient", placeholder: "Ingrese el tipo de cliente" }
                                             ].map(({ label, id, placeholder }) => (
@@ -234,7 +234,7 @@ export default function FormBox(props) {
                                                 </div>
                                             ))}
                                             <FormSelect 
-                                                labelSelect="Pais"
+                                                labelSelect="País"
                                                 idInputSelect="countryClient"
                                                 value={formData.countryClient}
                                                 onChange={handleChange}
@@ -270,7 +270,7 @@ export default function FormBox(props) {
                     <div className="row pb-4 pt-2 justify-content-center">
                         <div className="col-12 col-md-5 col-sm-6 text-center">
                             <button 
-                                onClick={()=>props.changeSesion(false)} id="close-sesion" className="btn btn-hover-red cursor bg-aquamarine" >Cerrar Sesion
+                                onClick={()=>props.changeSesion(false)} id="close-sesion" className="btn btn-hover-red cursor bg-aquamarine" >Cerrar Sesión
                             </button>
                         </div>                 
                     </div>

@@ -25,7 +25,7 @@ export default function LoginPage(props) {
     const validar = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:3001/login', {
+            const response = await fetch('http://localhost:3001/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ export default function LoginPage(props) {
                                 <div className="col-12 text-center pt-3">
                                     <div className="row justify-content-center text-center">
                                         <div className="col-lg-10 col-md-10 col-sm-9 col-9 text-center">
-                                            <FormTitle>Inicio de Sesion</FormTitle>
+                                            <FormTitle>Inicio de Sesión</FormTitle>
                                             {errorMessage && <div className="error">{errorMessage}</div>}
                                             <FormInput 
                                                 labelInput="Usuario" 
@@ -83,7 +83,7 @@ export default function LoginPage(props) {
                                                 inputValue={password}
                                                 onChange={changeState}
                                             />
-                                            <FormBtn onClick={sendDataToParent} idBtnForm="submit">Iniciar Sesion</FormBtn>
+                                            <FormBtn onClick={sendDataToParent} idBtnForm="submit">Iniciar Sesión</FormBtn>
                                         </div>
                                     </div>
                                 </div>
